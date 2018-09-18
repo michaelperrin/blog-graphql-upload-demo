@@ -6,3 +6,5 @@ Run:
 
     docker-compose up -d --build
     docker-compose exec php composer install
+    cd front
+    yarn start

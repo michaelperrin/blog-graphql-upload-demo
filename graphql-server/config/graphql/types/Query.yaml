@@ -1,0 +1,6 @@
+Query:
+    type: object
+    config:
+        fields:
+            profile:
+                type: "Int!"

@@ -1,0 +1,10 @@
+UpdateUserProfilePayload:
+    type: relay-mutation-payload
+    config:
+        fields:
+            # Add all needed fields for the payload.
+            # I just add a fake field for keeping things simple
+            name:
+                type: 'String!'
+            filename:
+                type: 'String'

@@ -1,0 +1,8 @@
+UpdateUserProfileInput:
+    type: relay-mutation-input
+    config:
+        fields:
+            name:
+                type: 'String!'
+            picture:
+                type: 'FileUpload'

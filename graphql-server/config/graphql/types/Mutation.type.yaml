@@ -1,0 +1,15 @@
+Mutation:
+    type: object
+    config:
+        fields:
+            UpdateUserProfile:
+                type: UpdateUserProfilePayload
+                resolve: "@=mutation('updateUserProfile', [args['input']['name'], args['input']['picture']])"
+                args:
+                    input: 'UpdateUserProfileInput!'
+
+            Yo:
+                type: UpdateUserProfilePayload
+                resolve: "@=mutation('yo', [args['input']])"
+                args:
+                    input: 'UpdateUserProfileInput!'
