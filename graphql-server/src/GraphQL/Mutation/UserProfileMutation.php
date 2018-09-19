@@ -12,7 +12,10 @@ class UserProfileMutation implements MutationInterface, AliasedInterface
     {
         // Add your business logic for the $name and $pictureFile variables
         // Eg. Persist user in database and upload the file to AWS S3
+        // The important thing to see here it that we have our uploaded file!
 
+        // This matches what we defined in UpdateUserProfilePayload.type.yaml
+        // but this is just some "random" data for the example here
         return [
             'name'     => $name,
             'filename' => $pictureFile->getClientOriginalName(),
