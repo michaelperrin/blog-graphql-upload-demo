@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -11,68 +11,62 @@ const UPDATE_PROFILE = gql`
   }
 `;
 
-class UpdateProfilePictureForm extends Component {
-  constructor(props) {
-    super(props);
+const UpdateProfilePictureForm = () => {
+  const [name, setName] = useState('');
+  const [picture, setPicture] = useState(null);
 
-    this.state = {
-      responseName: '',
-      responseFileName: '',
-    }
+  const [responseName, setResponseName] = useState('');
+  const [responseFileName, setResponseFileName] = useState('');
 
-    // Use uncontrolled form for this simple example, instead of a state
-    this.nameRef = React.createRef();
-    this.pictureFileRef = React.createRef();
+  const handleNameChange = e => {
+    setName(e.target.value);
   }
 
-  render() {
-    return (
-      <div>
-        <Mutation mutation={UPDATE_PROFILE}>
-          {(updateUserProfile) => (
+  const handlePictureChange = e => {
+    setPicture(e.target.files[0]);
+  }
+
+  const handleSubmit = (e, updateUserProfile) => {
+    e.preventDefault();
+
+    const profile = {
+      name,
+      picture,
+    };
+
+    updateUserProfile({ variables: { profile } }).then(({ data: { UpdateUserProfile } }) => {
+      setName('');
+      setPicture(null);
+      setResponseName(UpdateUserProfile.name);
+      setResponseFileName(UpdateUserProfile.filename);
+    });
+  };
+
+  return (
+    <div>
+      <Mutation mutation={UPDATE_PROFILE}>
+        {(updateUserProfile) => (
+          <div>
+            <form onSubmit={e => handleSubmit(e, updateUserProfile)} >
+              <input type="text" name="name" value={name} onChange={handleNameChange} />
+              <input type="file" name="pictureFile" onChange={handlePictureChange} />
+
+              <button type="submit">Update profile</button>
+            </form>
+
             <div>
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
+              Response:
 
-                  const profile = {
-                    name: this.nameRef.current.value,
-                    picture: this.pictureFileRef.current.files[0],
-                  };
-
-                  console.log(profile);
-
-                  updateUserProfile({ variables: { profile } }).then(({ data: { UpdateUserProfile } }) => {
-                    this.nameRef.current.value = '';
-                    this.pictureFileRef.current.value = null;
-
-                    this.setState({
-                      responseName: UpdateUserProfile.name,
-                      responseFileName: UpdateUserProfile.filename,
-                    });
-                  });
-                }}
-              >
-                <input type="text" name="name" ref={this.nameRef} />
-                <input type="file" name="pictureFile" ref={this.pictureFileRef} />
-
-                <button type="submit">Update profile</button>
-              </form>
-
-              <div>
-                Response:
-
-                <ul>
-                  <li>Name: {this.state.responseName}</li>
-                  <li>Filename: {this.state.responseFileName}</li>
-                </ul>
-              </div>
+              <ul>
+                <li>Name: {responseName}</li>
+                <li>Filename: {responseFileName}</li>
+              </ul>
             </div>
-          )}
-        </Mutation>
-      </div>
-    );
-  }
-}
+          </div>
+        )}
+      </Mutation>
+    </div>
+  );
+};
 
 export default UpdateProfilePictureForm;
