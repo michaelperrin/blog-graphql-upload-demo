@@ -40,6 +40,8 @@ class UpdateProfilePictureForm extends Component {
                     picture: this.pictureFileRef.current.files[0],
                   };
 
+                  console.log(profile);
+
                   updateUserProfile({ variables: { profile } }).then(({ data: { UpdateUserProfile } }) => {
                     this.nameRef.current.value = '';
                     this.pictureFileRef.current.value = null;
