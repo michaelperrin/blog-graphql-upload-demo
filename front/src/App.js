@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo';
 
 const App = () => (
   <ApolloProvider client={APOLLO_CLIENT}>
-    <div className="App">
+    <div className="container">
       <UpdateProfilePictureForm />
     </div>
   </ApolloProvider>

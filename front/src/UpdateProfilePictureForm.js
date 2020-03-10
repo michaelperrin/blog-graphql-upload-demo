@@ -48,14 +48,34 @@ const UpdateProfilePictureForm = () => {
         {(updateUserProfile) => (
           <div>
             <form onSubmit={e => handleSubmit(e, updateUserProfile)} >
-              <input type="text" name="name" value={name} onChange={handleNameChange} />
-              <input type="file" name="pictureFile" onChange={handlePictureChange} />
+              <div className="form-group">
+                <label htmlFor="name">Your name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="form-control"
+                  value={name}
+                  onChange={handleNameChange}
+                />
+              </div>
 
-              <button type="submit">Update profile</button>
+              <div className="form-group">
+                <label htmlFor="pictureFile">Choose picture</label>
+                <input
+                  type="file"
+                  id="pictureFile"
+                  name="pictureFile"
+                  className="form-control"
+                  onChange={handlePictureChange}
+                />
+              </div>
+
+              <button type="submit" className="btn btn-primary">Update profile</button>
             </form>
 
             <div>
-              Response:
+              Server response:
 
               <ul>
                 <li>Name: {responseName}</li>
