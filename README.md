@@ -15,4 +15,5 @@ Run:
 
     docker-compose up -d --build
     cd front
+    yarn install
     yarn start

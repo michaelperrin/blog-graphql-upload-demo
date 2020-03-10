@@ -1,9 +1,9 @@
-FROM composer:1.7 as composer
+FROM composer:1.9 as composer
 
-FROM php:7.2-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV APCU_VERSION 5.1.8
+ENV APCU_VERSION 5.1.18
 
 # Add Composer to PHP container
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
@@ -13,14 +13,17 @@ RUN apk add --no-cache \
     icu-libs \
     git \
     unzip \
-    zlib-dev && \
+    libzip && \
     apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
-    icu-dev && \
-    docker-php-ext-install \
+    icu-dev
+
+RUN apk add --no-cache libzip-dev
+RUN docker-php-ext-install \
     intl \
-    zip && \
-    pecl install apcu-${APCU_VERSION} && \
+    zip
+
+RUN pecl install apcu-${APCU_VERSION} && \
     docker-php-ext-enable apcu && \
     docker-php-ext-enable opcache
 
